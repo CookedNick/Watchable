@@ -20,16 +20,16 @@ Here is how you could write a Contact class that had `Observable` properties.
 
 ````
 class Contact {
-  let firstName: Observable<String> = .init("John")
-  let lastName: Observable<String> = .init("Doe")
-  let birthDay: Observable<Date> = .init(Date())
+  let firstName = Observable("John"),
+      lastName = Observable("Doe"),
+      birthday = Observable(Date())
 }
 ````
 
 You can even make a generic text field view that accepts any `Observable<String>` instance.
 
 ````
-struct StringTextField {
+struct GenericTextField {
   @ObservedObject var string: Observable<String>
   
   var body: some View {
@@ -38,4 +38,4 @@ struct StringTextField {
 }
 ````
 
-Increase your app's performance today!
+Increase performance today!
