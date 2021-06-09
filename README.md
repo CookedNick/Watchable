@@ -69,16 +69,13 @@ Use Swift Package Manager with this GitHub URL.
 ## License
 
 ````
-MIT License
+Custom License
 
 Copyright (c) 2021 Nicolas Cook Leon
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is granted to any person or entity to freely use, distribute, and modify this software, free of charge, subject to the condition below, EXCEPT in the case of commercial use.
+
+In commercial use cases, permission is granted to any person or entity to use and modify this software on the additional condition that $0.01 USD is paid out to Nicolas Cook Leon, per instance of the software, digital and physical, subject to the following condition:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
