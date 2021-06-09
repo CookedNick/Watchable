@@ -1,8 +1,8 @@
 # Observable
 
-A property wrapper type that creates a Foundation `ObservableObject` for one property.
+A property wrapper type that creates an `ObservableObject` for just a single property.
 
-This can actually have enormous performance benefits due to how SwiftUI recomputes views.
+This can have **enormous performance benefits** due to how SwiftUI recomputes views.
 
 ## SwiftUI + Performance
 
