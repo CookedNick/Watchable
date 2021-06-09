@@ -58,7 +58,7 @@ struct BedroomLabel: View {
 		}
 	}
 }
-```
+````
 
 Notice the lack of `@ObservedObject` wrappers in our SwiftUI view. `Observing` takes care of that part for us, offering us a generic solution to observe `Observable` properties (and any `ObservableObject`) in-line within a view's body, reducing the number of separate view types you will have to create to build your app.
 
