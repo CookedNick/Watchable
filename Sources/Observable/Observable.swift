@@ -18,7 +18,7 @@ extension Observable: Decodable where Value: Decodable { }
 @available(watchOS 6.0, *)
 extension Observable: Equatable where Value: Equatable {
 	public static func == (lhs: Observable<Value>, rhs: Observable<Value>) -> Bool {
-		lhs.internalValue == rhs.internalValue
+		lhs.wrappedValue == rhs.wrappedValue
 	}
 }
 
@@ -28,7 +28,7 @@ extension Observable: Equatable where Value: Equatable {
 @available(watchOS 6.0, *)
 extension Observable: Hashable where Value: Hashable {
 	public func hash(into hasher: inout Hasher) {
-		internalValue.hash(into: &hasher)
+		wrappedValue.hash(into: &hasher)
 	}
 }
 
@@ -38,7 +38,7 @@ extension Observable: Hashable where Value: Hashable {
 @available(watchOS 6.0, *)
 extension Observable: Identifiable where Value: Identifiable {
 	public var id: Value.ID {
-		internalValue.id
+		wrappedValue.id
 	}
 }
 
@@ -58,25 +58,8 @@ public final class Observable<Value>: ObservableObject {
 		self.init(wrappedValue: try Value(from: decoder))
 	}
 	
-	public convenience init(from decoder: Decoder) throws where Value: Decodable & Equatable {
-		self.init(wrappedValue: try Value(from: decoder))
-	}
-	
 	public init(wrappedValue: Value) {
-		internalValue = wrappedValue
-		set = { _ in }
-		set = { [unowned self] newValue in
-			internalValue = newValue
-		}
-	}
-	
-	public init(wrappedValue: Value) where Value: Equatable {
-		internalValue = wrappedValue
-		set = { _ in }
-		set = { [unowned self] newValue in
-			guard internalValue != newValue else { return }
-			internalValue = newValue
-		}
+		self.wrappedValue = wrappedValue
 	}
 	
 	
@@ -85,16 +68,9 @@ public final class Observable<Value>: ObservableObject {
 	}
 	
 	
-	public var wrappedValue: Value {
-		get { internalValue }
-		set { set(newValue) }
-	}
+	@Published public var wrappedValue: Value
 	
 	public var projectedValue: Observable<Value> {
 		self
 	}
-	
-	
-	@Published private var internalValue: Value
-	private var set: (Value) -> ()
 }
