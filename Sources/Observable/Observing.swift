@@ -41,26 +41,26 @@ public struct Observing<Object: ObservableObject, Content: View>: View {
 	/// - Parameter content: The content of the view.
 	/// - Parameter binding: The binding to the value.
 	public init<Value>(_ object: Observable<Value>, @ViewBuilder content: @escaping (_ binding: Binding<Value>) -> Content) where Object == Observable<Value> {
-		let binding = Binding { object.wrappedValue } set: { object.wrappedValue = $0 }
-		self.init(object) {
-			content(binding)
+		self.content = { object in
+			content(Binding { object.wrappedValue } set: { object.wrappedValue = $0 })
 		}
+		self.object = object
 	}
 	
 	/// A view that observes an `ObservableObject`. The view recomputes its body whenever the value is changed.
 	/// - Parameter object: The `ObservableObject` to observe.
 	/// - Parameter content: The content of the view.
 	public init(_ object: Object, @ViewBuilder content: @escaping () -> Content) {
-		self.content = content
+		self.content = { _ in content() }
 		self.object = object
 	}
 	
 	
 	public var body: some View {
-		content()
+		content(object)
 	}
 	
 	
-	private let content: () -> Content
+	private let content: (Object) -> Content
 	@ObservedObject private var object: Object // The part that tells SwiftUI to update.
 }
