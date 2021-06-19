@@ -8,59 +8,53 @@ This can have **enormous performance benefits** due to how SwiftUI recomputes vi
 
 Views get called to update each time **any** of an object's properties change. Even if it's irrelevant to a given view.
 
-Consider the following common pattern of a typical `ObservableObject` type with `@Published` properties.
+Consider the following common pattern of a typical custom view with one `@State` property.
 
 ````
-class Bedroom: ObservableObject {
-	@Published var numberOfPeople = 0
-	@Published var areTheLightsOn = false
-}
-
 struct BedroomLabel: View {
-	@ObservedObject var bedroom: Bedroom
+	@State var areTheLightsOn = false
+	var numberOfPeople = 0
 	
 	var body: some View {
 		VStack {
-			Text("This bedroom has \(bedroom.numberOfPeople) people in it.")
+			Text("This bedroom has \(numberOfPeople) people in it.")
 			
-			Toggle("Lights On/Off", isOn: $bedroom.areTheLightsOn)
+			Toggle("Lights On/Off", isOn: $areTheLightsOn)
 		}
 	}
 }
 ````
 
-This is a very common pattern in SwiftUI, and it works alright, but the `BedroomLabel` will update in its entirety whenever any of the properties in the bedroom change. So the CPU spends unnecessary time checking the entire body whenever this happens.
+This is a very common pattern in SwiftUI, and it works alright, but the `BedroomLabel` will update in its entirety whenever the lights get toggled. This means the CPU spends *unnecessary* time checking the entire body whenever this happens.
 
-*How can we do better?*
+**How can we do better?**
 
 ## One `ObservableObject` per Property
 
 Here is that same example written using `Observable`.
 
 ````
-class Bedroom {
-	@Observable var numberOfPeople = 0
-	@Observable var areTheLightsOn = false
-}
-
 struct BedroomLabel: View {
-	var bedroom: Bedroom
+	@Observable var areTheLightsOn = false
+	var numberOfPeople = 0
 	
 	var body: some View {
 		VStack {
-			Observing(bedroom.$numberOfPeople) { $numberOfPeople in
-				Text("This bedroom has \(numberOfPeople) people in it.")
-			}
+			Text("This bedroom has \(numberOfPeople) people in it.")
 			
-			Observing(bedroom.$areTheLightsOn) { areTheLightsOn in
-				Toggle("Lights On/Off", isOn: areTheLightsOn)
+			Observing($areTheLightsOn) { binding in
+				Toggle("Lights On/Off", isOn: binding)
 			}
 		}
 	}
 }
 ````
 
-Notice the lack of `@ObservedObject` wrappers in our SwiftUI view. `Observing` takes care of that part for us, offering us a generic solution to observe `Observable` properties (and any `ObservableObject`) in-line within a view's body, reducing the number of separate view types you will have to create to build your app.
+`@Observable` writes just like `@State`, except it stores the value in an implicit generic `ObservableObject` type. `Observing` takes care of unwrapping that and recomputing a view closure whenever its changed.
+
+This means `BedroomLabel` won't be computed on changes. Only the `Toggle` will be.
+
+[ObservableSample is a sample app](https://github.com/cookednick/ObservableSample) that demonstrates, side-by-side, the performance gains of using `@Observable` instead of `@State`.
 
 ## Installation
 
