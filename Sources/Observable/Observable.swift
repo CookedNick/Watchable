@@ -65,6 +65,10 @@ public final class Observable<Value>: ObservableObject {
 		self
 	}
 	
+	public var publisher: Published<Value>.Publisher {
+		_wrappedValue.projectedValue
+	}
+	
 	public var binding: Binding<Value> {
 		Binding(get: { self.wrappedValue }, set: { self.wrappedValue = $0 })
 	}
