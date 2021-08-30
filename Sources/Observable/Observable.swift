@@ -53,6 +53,10 @@ public final class Observable<Value>: ObservableObject {
 		self.wrappedValue = wrappedValue
 	}
 	
+	public init(_ initialValue: Value) {
+		self.wrappedValue = initialValue
+	}
+	
 	
 	public func encode(to encoder: Encoder) throws where Value: Encodable {
 		try wrappedValue.encode(to: encoder)
