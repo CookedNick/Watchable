@@ -10,7 +10,7 @@ Views get called to update each time **any** of an object's properties change. E
 
 Consider the following common pattern of a typical custom view with one `@State` property.
 
-````
+```swift
 struct BedroomLabel: View {
 	@State var areTheLightsOn = false
 	var numberOfPeople = 0
@@ -23,7 +23,7 @@ struct BedroomLabel: View {
 		}
 	}
 }
-````
+```
 
 This is a very common pattern in SwiftUI, and it works alright, but the `BedroomLabel` will update in its entirety whenever the lights get toggled. This means the CPU spends *unnecessary* time checking the entire body whenever this happens.
 
@@ -33,7 +33,7 @@ This is a very common pattern in SwiftUI, and it works alright, but the `Bedroom
 
 Here is that same example written using `Observable`.
 
-````
+```swift
 struct BedroomLabel: View {
 	@Observable var areTheLightsOn = false
 	var numberOfPeople = 0
@@ -48,7 +48,7 @@ struct BedroomLabel: View {
 		}
 	}
 }
-````
+```
 
 `@Observable` writes just like `@State`, except it stores the value in an implicit generic `ObservableObject` type. `Observing` takes care of unwrapping that and recomputing a view closure whenever its changed.
 
