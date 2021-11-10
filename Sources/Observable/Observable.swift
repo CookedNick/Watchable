@@ -65,6 +65,7 @@ public final class Observable<Value>: ObservableObject {
 	
 	@Published public var wrappedValue: Value
 	
+	
 	public var projectedValue: Observable<Value> {
 		self
 	}

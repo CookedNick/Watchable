@@ -10,9 +10,20 @@ public struct Observing<Object: ObservableObject, Content: View>: View {
 	/// - Parameter object: The `Observable` to observe. You can use the `$` prefix on an `@Observable` property to pass it here.
 	/// - Parameter content: The content of the view.
 	/// - Parameter binding: The binding to the value.
-	public init<Value>(_ object: Observable<Value>, @ViewBuilder content: @escaping (_ binding: Binding<Value>) -> Content) where Object == Observable<Value> {
+	public init<Value>(bindingOf object: Observable<Value>, @ViewBuilder onChange content: @escaping (_ binding: Binding<Value>) -> Content) where Object == Observable<Value> {
 		self.content = { object in
 			content(Binding { object.wrappedValue } set: { object.wrappedValue = $0 })
+		}
+		self.object = object
+	}
+	
+	/// A view that observes an `Observable` property, passing down the current value. The view recomputes its body whenever the value is changed.
+	/// - Parameter object: The `Observable` to observe. You can use the `$` prefix on an `@Observable` property to pass it here.
+	/// - Parameter content: The content of the view.
+	/// - Parameter value: The current value.
+	public init<Value>(valueOf object: Observable<Value>, @ViewBuilder onChange content: @escaping (_ newValue: Value) -> Content) where Object == Observable<Value> {
+		self.content = { object in
+			content(object.wrappedValue)
 		}
 		self.object = object
 	}
