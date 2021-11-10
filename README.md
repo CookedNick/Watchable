@@ -42,8 +42,8 @@ struct BedroomLabel: View {
 		VStack {
 			Text("This bedroom has \(numberOfPeople) people in it.")
 			
-			Observing($areTheLightsOn) { binding in
-				Toggle("Lights On/Off", isOn: binding)
+			Observing(bindingOf: $areTheLightsOn) { isOn in
+				Toggle("Lights On/Off", isOn: isOn)
 			}
 		}
 	}
