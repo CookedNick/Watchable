@@ -8,21 +8,21 @@ extension Observable: Decodable where Value: Decodable { }
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Observable: Equatable where Value: Equatable {
-	public static func == (lhs: Observable<Value>, rhs: Observable<Value>) -> Bool {
+	@inlinable @inline(__always) public static func == (lhs: Observable<Value>, rhs: Observable<Value>) -> Bool {
 		lhs.wrappedValue == rhs.wrappedValue
 	}
 }
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Observable: Hashable where Value: Hashable {
-	public func hash(into hasher: inout Hasher) {
+	@inlinable @inline(__always) public func hash(into hasher: inout Hasher) {
 		wrappedValue.hash(into: &hasher)
 	}
 }
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Observable: Identifiable where Value: Identifiable {
-	public var id: Value.ID {
+	@inlinable @inline(__always) public var id: Value.ID {
 		wrappedValue.id
 	}
 }
@@ -31,7 +31,7 @@ extension Observable: Identifiable where Value: Identifiable {
 extension Observable where Value: ExpressibleByNilLiteral {
 	
 	/// Creates an `Observable` without an initial value.
-	public convenience init() {
+	@inlinable @inline(__always) public convenience init() {
 		self.init(wrappedValue: nil)
 	}
 }
@@ -45,20 +45,20 @@ extension Observable where Value: ExpressibleByNilLiteral {
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 @propertyWrapper
 public final class Observable<Value>: ObservableObject {
-	public convenience init(from decoder: Decoder) throws where Value: Decodable {
+	@inlinable @inline(__always) public convenience init(from decoder: Decoder) throws where Value: Decodable {
 		self.init(wrappedValue: try Value(from: decoder))
 	}
 	
-	public init(wrappedValue: Value) {
+	@inlinable @inline(__always) public init(wrappedValue: Value) {
 		self.wrappedValue = wrappedValue
 	}
 	
-	public init(_ initialValue: Value) {
+	@inlinable @inline(__always) public init(_ initialValue: Value) {
 		self.wrappedValue = initialValue
 	}
 	
 	
-	public func encode(to encoder: Encoder) throws where Value: Encodable {
+	@inlinable @inline(__always) public func encode(to encoder: Encoder) throws where Value: Encodable {
 		try wrappedValue.encode(to: encoder)
 	}
 	
@@ -66,15 +66,15 @@ public final class Observable<Value>: ObservableObject {
 	@Published public var wrappedValue: Value
 	
 	
-	public var projectedValue: Observable<Value> {
+	@inlinable @inline(__always) public var projectedValue: Observable<Value> {
 		self
 	}
 	
-	public var publisher: Published<Value>.Publisher {
-		_wrappedValue.projectedValue
+	@inlinable @inline(__always) public var publisher: Published<Value>.Publisher {
+		$wrappedValue
 	}
 	
-	public var binding: Binding<Value> {
+	@inlinable @inline(__always) public var binding: Binding<Value> {
 		Binding(get: { self.wrappedValue }, set: { self.wrappedValue = $0 })
 	}
 }
