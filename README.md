@@ -1,4 +1,4 @@
-**Note (2024):** I still use this package, but I had to rename it as of iOS 17 to "Watchable". The old name conflicts with Apple's new "Observable" macro. I am too lazy to update this package, but I'll put this note here in case anyone is still trying to use it.
+**Note (2024):** I still use this package, but I had to rename it as of iOS 17 to "Watchable". The old name conflicts with Apple's new "Observable" macro. I am too lazy to update the repository, but I'll put this note here in case anyone is still trying to use it.
 
 # Observable
 
