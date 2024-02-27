@@ -4,14 +4,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "Observable",
+    name: "Watchable",
     products: [
         .library(
-            name: "Observable",
-            targets: ["Observable"])
+            name: "Watchable",
+            targets: ["Watchable"])
     ],
     targets: [
         .target(
-            name: "Observable")
+            name: "Watchable")
     ]
 )
