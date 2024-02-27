@@ -1,6 +1,4 @@
-**Note (2024):** I still use this package, but I had to rename it as of iOS 17 to "Watchable". The old name conflicts with Apple's new "Observable" macro. I am too lazy to update the repository, but I'll put this note here in case anyone is still trying to use it.
-
-# Observable
+# Watchable
 
 A property wrapper type that creates an `ObservableObject` for just a single property.
 
@@ -33,18 +31,18 @@ This is a very common pattern in SwiftUI, and it works alright, but the `Bedroom
 
 ## One `ObservableObject` per Property
 
-Here is that same example written using `Observable`.
+Here is that same example written using `Watchable`.
 
 ```swift
 struct BedroomLabel: View {
-	@Observable var areTheLightsOn = false
+	@Watchable var areTheLightsOn = false
 	var numberOfPeople = 0
 	
 	var body: some View {
 		VStack {
 			Text("This bedroom has \(numberOfPeople) people in it.")
 			
-			Observing(bindingOf: $areTheLightsOn) { isOn in
+			Watching(bindingOf: $areTheLightsOn) { isOn in
 				Toggle("Lights On/Off", isOn: isOn)
 			}
 		}
@@ -52,11 +50,9 @@ struct BedroomLabel: View {
 }
 ```
 
-`@Observable` writes just like `@State`, except it stores the value in an implicit generic `ObservableObject` type. `Observing` takes care of unwrapping that and recomputing a view closure whenever its changed.
+`@Watchable` writes just like `@State`, except it stores the value in an implicit generic `ObservableObject` type. `Watching` takes care of unwrapping that and recomputing a view closure whenever its changed.
 
 This means `BedroomLabel` won't be computed on changes. Only the `Toggle` will be.
-
-[ObservableSample is a sample app](https://github.com/cookednick/ObservableSample) that demonstrates, side-by-side, the performance gains of using `@Observable` instead of `@State`.
 
 ## Installation
 
@@ -67,7 +63,7 @@ Use Swift Package Manager with this GitHub URL.
 ````
 MIT License
 
-Copyright © 2021-2022 Nicolas Cook Leon
+Copyright © 2021-2024 Nicolas Cook Leon
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
