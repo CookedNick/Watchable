@@ -12,16 +12,16 @@ Consider the following common pattern of a typical custom view with one `@State`
 
 ```swift
 struct BedroomLabel: View {
-	@State var areTheLightsOn = false
-	var numberOfPeople = 0
-	
-	var body: some View {
-		VStack {
-			Text("This bedroom has \(numberOfPeople) people in it.")
-			
-			Toggle("Lights On/Off", isOn: $areTheLightsOn)
-		}
-	}
+    @State var areTheLightsOn = false
+    var numberOfPeople = 0
+    
+    var body: some View {
+        VStack {
+            Text("This bedroom has \(numberOfPeople) people in it.")
+
+            Toggle("Lights On/Off", isOn: $areTheLightsOn)
+        }
+    }
 }
 ```
 
@@ -35,18 +35,18 @@ Here is that same example written using `Watchable`.
 
 ```swift
 struct BedroomLabel: View {
-	@Watchable var areTheLightsOn = false
-	var numberOfPeople = 0
-	
-	var body: some View {
-		VStack {
-			Text("This bedroom has \(numberOfPeople) people in it.")
-			
-			Watching(bindingOf: $areTheLightsOn) { isOn in
-				Toggle("Lights On/Off", isOn: isOn)
-			}
-		}
-	}
+    @Watchable var areTheLightsOn = false
+    var numberOfPeople = 0
+    
+    var body: some View {
+        VStack {
+            Text("This bedroom has \(numberOfPeople) people in it.")
+            
+            Watching(bindingOf: $areTheLightsOn) { isOn in
+                Toggle("Lights On/Off", isOn: isOn)
+            }
+        }
+    }
 }
 ```
 
